@@ -23,13 +23,17 @@ module.exports = {
         'getDefaultProps',
         'getChildContext',
         'componentWillMount',
+        'UNSAFE_componentWillMount',
         'componentDidMount',
         'componentWillReceiveProps',
+        'UNSAFE_componentWillReceiveProps',
         'shouldComponentUpdate',
         'componentWillUpdate',
+        'UNSAFE_componentWillUpdate',
         'componentDidUpdate',
         'componentWillUnmount',
         'componentDidCatch',
+        'getSnapshotBeforeUpdate'
       ],
     }],
 
@@ -89,7 +93,9 @@ module.exports = {
     'react/jsx-no-bind': ['error', {
       ignoreRefs: true,
       allowArrowFunctions: true,
+      allowFunctions: false,
       allowBind: false,
+      ignoreDOMComponents: true,
     }],
 
     // Prevent duplicate props in JSX
@@ -371,8 +377,9 @@ module.exports = {
 
     // Forbids using non-exported propTypes
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-foreign-prop-types.md
-    // TODO: enable?
-    'react/forbid-foreign-prop-types': ['off', { allowInPropTypes: true }],
+    // this is intentionally set to "warn". it would be "error",
+    // but it's only critical if you're stripping propTypes in production.
+    'react/forbid-foreign-prop-types': ['warn', { allowInPropTypes: true }],
 
     // Prevent void DOM elements from receiving children
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/void-dom-elements-no-children.md
@@ -408,7 +415,7 @@ module.exports = {
 
     // One JSX Element Per Line
     // https://github.com/yannickcr/eslint-plugin-react/blob/843d71a432baf0f01f598d7cf1eea75ad6896e4b/docs/rules/jsx-one-expression-per-line.md
-    'react/jsx-one-expression-per-line': 'error',
+    'react/jsx-one-expression-per-line': ['error', { allow: 'single-child' }],
 
     // Enforce consistent usage of destructuring assignment of props, state, and context
     // https://github.com/yannickcr/eslint-plugin-react/blob/843d71a432baf0f01f598d7cf1eea75ad6896e4b/docs/rules/destructuring-assignment.md
@@ -440,6 +447,10 @@ module.exports = {
     // Disallow multiple spaces between inline JSX props
     // https://github.com/yannickcr/eslint-plugin-react/blob/ac102885765be5ff37847a871f239c6703e1c7cc/docs/rules/jsx-props-no-multi-spaces.md
     'react/jsx-props-no-multi-spaces': 'error',
+
+    // Prevent usage of UNSAFE_ methods
+    // https://github.com/yannickcr/eslint-plugin-react/blob/157cc932be2cfaa56b3f5b45df6f6d4322a2f660/docs/rules/no-unsafe.md
+    'react/no-unsafe': 'off',
   },
 
   settings: {
