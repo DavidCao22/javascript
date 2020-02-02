@@ -194,7 +194,7 @@ module.exports = {
 
     // Prevent multiple component definition per file
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-multi-comp.md
-    'react/no-multi-comp': ['error', { ignoreStateless: true }],
+    'react/no-multi-comp': 'off',
 
     // Prevent usage of setState
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-set-state.md
@@ -240,6 +240,7 @@ module.exports = {
     // https://github.com/yannickcr/eslint-plugin-react/blob/843d71a432baf0f01f598d7cf1eea75ad6896e4b/docs/rules/sort-comp.md
     'react/sort-comp': ['error', {
       order: [
+        'static-variables',
         'static-methods',
         'instance-variables',
         'lifecycle',
@@ -265,13 +266,19 @@ module.exports = {
           'getInitialState',
           'state',
           'getChildContext',
+          'getDerivedStateFromProps',
           'componentWillMount',
+          'UNSAFE_componentWillMount',
           'componentDidMount',
           'componentWillReceiveProps',
+          'UNSAFE_componentWillReceiveProps',
           'shouldComponentUpdate',
           'componentWillUpdate',
+          'UNSAFE_componentWillUpdate',
+          'getSnapshotBeforeUpdate',
           'componentDidUpdate',
-          'componentWillUnmount',
+          'componentDidCatch',
+          'componentWillUnmount'
         ],
         rendering: [
           '/^render.+$/',
@@ -460,6 +467,39 @@ module.exports = {
     // Prevent usage of UNSAFE_ methods
     // https://github.com/yannickcr/eslint-plugin-react/blob/157cc932be2cfaa56b3f5b45df6f6d4322a2f660/docs/rules/no-unsafe.md
     'react/no-unsafe': 'off',
+
+    // Enforce shorthand or standard form for React fragments
+    // https://github.com/yannickcr/eslint-plugin-react/blob/bc976b837abeab1dffd90ac6168b746a83fc83cc/docs/rules/jsx-fragments.md
+    'react/jsx-fragments': ['error', 'syntax'],
+
+    // Enforce linebreaks in curly braces in JSX attributes and expressions.
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-curly-newline.md
+    'react/jsx-curly-newline': ['error', {
+      multiline: 'consistent',
+      singleline: 'consistent',
+    }],
+
+    // Enforce state initialization style
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/state-in-constructor.md
+    // TODO: set to "never" once babel-preset-airbnb supports public class fields
+    'react/state-in-constructor': ['error', 'always'],
+
+    // Enforces where React component static properties should be positioned
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/static-property-placement.md
+    // TODO: set to "static public field" once babel-preset-airbnb supports public class fields
+    'react/static-property-placement': ['error', 'property assignment'],
+
+    // Disallow JSX props spreading
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-props-no-spreading.md
+    'react/jsx-props-no-spreading': ['error', {
+      html: 'enforce',
+      custom: 'enforce',
+      exceptions: [],
+    }],
+
+    // Enforce that props are read-only
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-read-only-props.md
+    'react/prefer-read-only-props': 'off',
   },
 
   settings: {
@@ -470,7 +510,7 @@ module.exports = {
     },
     react: {
       pragma: 'React',
-      version: '16.0'
+      version: 'detect',
     },
     propWrapperFunctions: [
       'forbidExtraProps', // https://www.npmjs.com/package/airbnb-prop-types
